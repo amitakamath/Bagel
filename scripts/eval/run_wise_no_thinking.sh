@@ -9,7 +9,7 @@ export OPENAI_API_KEY=$openai_api_key
 
 GPUS=8
 model_path=/checkpoint/dream/transfusion/cache/BAGEL-7B-MoT
-output_path=./wise_outputs_with_thinking
+output_path=./wise_outputs_without_thinking
 
 # generate images
 torchrun \
@@ -24,7 +24,7 @@ torchrun \
     --resolution 1024 \
     --max_latent_size 64 \
     --model-path $model_path \
-    --think
+    #--think
 
 
 # calculate score
