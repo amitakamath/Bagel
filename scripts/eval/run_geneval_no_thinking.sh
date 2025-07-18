@@ -6,7 +6,7 @@ set -x
 GPUS=8
 #model_path=./eval/gen/geneval/model/mask2former_swin-s-p4-w7-224_lsj_8x2_50e_coco.pth
 model_path=/checkpoint/dream/transfusion/cache/BAGEL-7B-MoT
-output_path=./outputs_with_thinking
+output_path=./outputs_without_thinking_1_sample
 
 
 # generate images
@@ -24,7 +24,6 @@ torchrun \
     --resolution 1024 \
     --max_latent_size 64 \
     --model-path $model_path \
-    --think
     # --metadata_file ./eval/gen/geneval/prompts/evaluation_metadata.jsonl \
 
 # calculate score
