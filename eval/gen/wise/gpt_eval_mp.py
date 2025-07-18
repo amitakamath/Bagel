@@ -225,7 +225,8 @@ def process_prompt(prompt_id, prompt_data, config):
 
 if __name__ == "__main__":
     api_key = openai.api_key
-    base_url = "https://azure-services-fair-openai2-westus3.azure-api.net" #"your_api_url",
+    # Put your API URL here:
+    base_url = "..." #"your_api_url",
     api_version = "2024-06-01" #"2024-03-01-preview"
     model = "gpt-4o"  #"gpt-4o-2024-11-20"
 
