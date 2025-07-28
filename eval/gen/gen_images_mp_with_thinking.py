@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
+import pdb
 import json
 import argparse
 from safetensors.torch import load_file
@@ -47,6 +48,7 @@ def generate_image_with_think(
     new_rope = [0]
     
     # system prompt
+    pdb.set_trace()
     generation_input, newlens, new_rope = model.prepare_prompts(
         curr_kvlens=newlens,
         curr_rope=new_rope, 
@@ -80,20 +82,7 @@ def generate_image_with_think(
         
     ########## think
     tmp_past_key_values = copy.deepcopy(past_key_values)
-    tmp_newlens = copy.deepcopy(newlens)
-    tmp_new_rope = copy.deepcopy(new_rope)
-    tmp_generation_input, tmp_newlens, tmp_new_rope = model.prepare_prompts(
-        curr_kvlens=tmp_newlens,
-        curr_rope=tmp_new_rope, 
-        prompts=[prompt],
-        tokenizer=tokenizer, 
-        new_token_ids=new_token_ids,
-    )
-    tmp_generation_input = move_generation_input_to_device(tmp_generation_input, device)
-    with torch.amp.autocast("cuda", enabled=True, dtype=torch.bfloat16):
-        tmp_past_key_values = model.forward_cache_update_text(tmp_past_key_values, **tmp_generation_input)  
-    
-    tmp_generation_input = model.prepare_start_tokens(tmp_newlens, tmp_new_rope, new_token_ids)
+    tmp_generation_input = model.prepare_start_tokens(newlens, new_rope, new_token_ids)
     tmp_generation_input = move_generation_input_to_device(tmp_generation_input, device)
     with torch.amp.autocast("cuda", enabled=True, dtype=torch.bfloat16):
         unpacked_latent = model.generate_text(
